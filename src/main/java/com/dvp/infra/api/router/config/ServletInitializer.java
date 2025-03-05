@@ -1,5 +1,6 @@
 package com.dvp.infra.api.router.config;
 
+import com.dvp.UsersApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
@@ -7,6 +8,6 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
-        return application.sources(com.pichincha.UsersApplication.class);
+        return application.sources(UsersApplication.class);
     }
 }

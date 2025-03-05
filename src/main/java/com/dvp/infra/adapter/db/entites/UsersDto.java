@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,22 +12,18 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "clients")
-public class ClientsDto {
+@Table(name = "users", uniqueConstraints={@UniqueConstraint(columnNames = {"first_name" , "last_name"})})
+public class UsersDto {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "client_id")
-    private Long clientId;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(length = 100)
-    private String password;
+    @Column(name = "first_name", length = 100)
+    private String firstName;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_person_id", referencedColumnName = "person_id")
-    private PersonsDto persons;
+    @Column(name = "last_name", length = 100)
+    private String lastName;
 
     @Column(name = "create_at", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false, updatable = false)
     private Timestamp createAt;

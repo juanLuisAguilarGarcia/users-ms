@@ -10,7 +10,6 @@ import static com.dvp.infra.api.router.controller.error.ErrorConsts.MOCK_MENSAJE
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class GenericResponseDTO {
     @Schema(example = MOCK_CODE)
     private String code;

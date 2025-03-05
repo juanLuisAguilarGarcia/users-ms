@@ -11,11 +11,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @SuperBuilder
 @Builder
-public class Client {
-    private Long clientId;
-    private Boolean isActive;
-    private String password;
-    private Person personalInformation;
+public class User {
+    private Long userId;
+    private String firstName;
+    private String lastName;
     private Timestamp createAt;
     private Timestamp updateAt;
 }

@@ -7,9 +7,10 @@ public class ServiceConsts {
     /**
      * Msg
      */
-    public static final String MSG_CLIENT_CREATED = "client created";
-    public static final String MSG_CLIENT_GET = "client found";
-    public static final String MSG_CLIENT_UPDATE = "client updated";
-    public static final String MSG_PROCESS_SERVICE = "client %s successfully. %s: %s";
-    public static final String MSG_ERROR_PROCESS_SERVICE = "client %s error, %s: %s. Message: %s";
+    public static final String MSG_USER_CREATED = "User created";
+    public static final String MSG_USER_GET = "User found";
+    public static final String MSG_USER_UPDATE = "User updated";
+    public static final String MSG_USER_GET_ALL = "Users found";
+    public static final String MSG_PROCESS_SERVICE = "User %s successfully. %s: %s";
+    public static final String MSG_ERROR_PROCESS_SERVICE = "User %s error, %s: %s. Message: %s";
 }

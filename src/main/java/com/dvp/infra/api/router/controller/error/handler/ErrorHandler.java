@@ -1,6 +1,6 @@
 package com.dvp.infra.api.router.controller.error.handler;
 
-import com.dvp.infra.api.router.controller.error.exception.ClientException;
+import com.dvp.infra.api.router.controller.error.exception.UserException;
 import com.dvp.infra.api.router.controller.dto.GenericResponseDTO;
 import com.dvp.infra.api.router.controller.error.ErrorConsts;
 import org.springframework.http.HttpStatus;
@@ -40,9 +40,9 @@ public class ErrorHandler {
         return new ResponseEntity<>(errorMesage, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ClientException.class})
+    @ExceptionHandler({UserException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    protected ResponseEntity<GenericResponseDTO> genericException(ClientException ex ){
+    protected ResponseEntity<GenericResponseDTO> genericException(UserException ex ){
         GenericResponseDTO errorMesage = new GenericResponseDTO(
                 ex.getCode(),
                 ex.getMessage()

@@ -1,13 +1,12 @@
 package com.dvp.infra.api.router.controller;
 
 import com.dvp.infra.api.router.controller.dto.GenericResponseDTO;
-import com.dvp.infra.api.router.controller.dto.request.CreateClientDto;
-import com.dvp.infra.api.router.controller.dto.request.UpdateClientDto;
-import com.dvp.infra.api.router.controller.dto.response.client.ClientDto;
-import com.dvp.infra.api.router.controller.error.exception.ClientException;
-import com.dvp.infra.api.router.controller.mapper.ClientDtoMapper;
+import com.dvp.infra.api.router.controller.dto.request.CreateAndUpdateUserDto;
+import com.dvp.infra.api.router.controller.dto.response.user.UserDto;
+import com.dvp.infra.api.router.controller.error.exception.UserException;
+import com.dvp.infra.api.router.controller.mapper.UserDtoMapper;
 import com.dvp.infra.api.router.RouterConsts;
-import com.dvp.infra.api.router.facade.ClientsFacade;
+import com.dvp.infra.api.router.facade.UsersFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,18 +30,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping(path = RouterConsts.CONTROLLER_PATH)
 @Tag(name = RouterConsts.API)
-public class ClientsController {
+public class UsersController {
 
     @Autowired
-    private ClientDtoMapper clientDtoMapper;
+    private UserDtoMapper userDtoMapper;
 
     @Autowired
-    private ClientsFacade clientsFacade;
+    private UsersFacade usersFacade;
 
     @PostMapping(value = "", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = RouterConsts.API_OPERATION_CREATE_CLIENT, description = RouterConsts.NOTE_API_OPERATION_CREATE_CLIENT)
+    @Operation(summary = RouterConsts.API_OPERATION_CREATE_USER, description = RouterConsts.NOTE_API_OPERATION_CREATE_USER)
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = RouterConsts.API_RESPONSE_COD_200,
-                    content =  { @Content( schema = @Schema(implementation =  ClientDto.class), mediaType = APPLICATION_JSON_VALUE)}),
+                    content =  { @Content( schema = @Schema(implementation =  UserDto.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "400", description = RouterConsts.API_RESPONSE_COD_400,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "404", description = RouterConsts.API_RESPONSE_COD_404,
@@ -52,20 +51,20 @@ public class ClientsController {
             @ApiResponse(responseCode = "500", description = RouterConsts.API_RESPONSE_COD_500,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)})
     })
-    public ResponseEntity<ClientDto> createClient(
-            @Parameter(description = RouterConsts.API_PARAM_REQUEST_CREATE_CLIENT, required = true) @Validated @RequestBody(required = true) CreateClientDto clientDto) throws ClientException {
-        log.info(String.format(MSG_PROCESS, "init", "create",  clientDto.getPersonalInformation().getIdentification().getNumber()));
+    public ResponseEntity<UserDto> createUser(
+            @Parameter(description = RouterConsts.API_PARAM_REQUEST_CREATE_USER, required = true) @Validated @RequestBody(required = true) CreateAndUpdateUserDto userDto) throws UserException {
+        log.info(String.format(MSG_PROCESS, "init", "create",  userDto.getFirstName()));
 
-        ClientDto response = clientsFacade.createClient(ClientDtoMapper.toEntity(clientDto));
+        UserDto response = usersFacade.createUser(UserDtoMapper.toEntity(userDto));
 
-        log.info(String.format(MSG_PROCESS, "end", "create",  clientDto.getPersonalInformation().getIdentification().getNumber()));
+        log.info(String.format(MSG_PROCESS, "end", "create",  userDto.getFirstName()));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{client_id}", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = RouterConsts.API_OPERATION_GET_CLIENT_BY_ID, description = RouterConsts.NOTE_API_OPERATION_GET_BY_ID_CLIENT)
+    @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = RouterConsts.API_OPERATION_GET_USER_BY_ID, description = RouterConsts.NOTE_API_OPERATION_GET_BY_ID_USER)
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = RouterConsts.API_RESPONSE_COD_200,
-            content =  { @Content( schema = @Schema(implementation =  ClientDto.class), mediaType = APPLICATION_JSON_VALUE)}),
+            content =  { @Content( schema = @Schema(implementation =  UserDto.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "400", description = RouterConsts.API_RESPONSE_COD_400,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "404", description = RouterConsts.API_RESPONSE_COD_404,
@@ -75,20 +74,20 @@ public class ClientsController {
             @ApiResponse(responseCode = "500", description = RouterConsts.API_RESPONSE_COD_500,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)})
     })
-    public ResponseEntity<ClientDto> getClientById(
-            @Parameter(description = RouterConsts.API_PARAM_REQUEST_GET_CLIENT, required = true) @PathVariable(name = PARAM_CLIENT_ID ) Long clientId) throws ClientException {
-        log.info(String.format(MSG_PROCESS, "init", "get",  clientId));
+    public ResponseEntity<UserDto> getUserById(
+            @Parameter(description = API_PARAM_REQUEST_GET_USER, required = true) @PathVariable(name = PARAM_USER_ID ) Long userId) throws UserException {
+        log.info(String.format(MSG_PROCESS, "init", "get",  userId));
 
-        ClientDto response = clientsFacade.getClientById(clientId);
+        UserDto response = usersFacade.getUserById(userId);
 
-        log.info(String.format(MSG_PROCESS, "end", "get",  clientId));
+        log.info(String.format(MSG_PROCESS, "end", "get",  userId));
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(value = "/{client_id}", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = RouterConsts.API_OPERATION_DELETE_CLIENT, description = RouterConsts.NOTE_API_OPERATION_DELETE_CLIENT)
+    @GetMapping(value = "", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = API_OPERATION_GET_ALL_USER, description = NOTE_API_OPERATION_GET_ALL_USER)
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = RouterConsts.API_RESPONSE_COD_200,
-            content =  { @Content( schema = @Schema(implementation =  GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)}),
+            content =  { @Content( schema = @Schema(implementation =  UserDto.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "400", description = RouterConsts.API_RESPONSE_COD_400,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "404", description = RouterConsts.API_RESPONSE_COD_404,
@@ -98,22 +97,19 @@ public class ClientsController {
             @ApiResponse(responseCode = "500", description = RouterConsts.API_RESPONSE_COD_500,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)})
     })
-    public ResponseEntity<GenericResponseDTO> deleteClient(
-            @Parameter(description = RouterConsts.API_PARAM_REQUEST_GET_CLIENT, required = true) @PathVariable(name = PARAM_CLIENT_ID) Long clientId) throws ClientException {
-        log.info(String.format(MSG_PROCESS, "init", "delete",  clientId));
+    public ResponseEntity<UserDto> getUsers() throws UserException {
+        log.info(String.format(MSG_PROCESS, "init", "get", " all users"));
 
-        clientsFacade.deleteClient(clientId);
+        UserDto response = usersFacade.getUsers();
 
-        log.info(String.format(MSG_PROCESS, "end", "delete",  clientId));
-        return ResponseEntity.ok(GenericResponseDTO.builder()
-                .code(String.valueOf(HttpStatus.OK.value()))
-                .message(MSG_CONFIRMATION_DELETE).build());
+        log.info(String.format(MSG_PROCESS, "end", "get", "all users"));
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping(value = "/{client_id}", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = RouterConsts.API_OPERATION_CREATE_CLIENT, description = RouterConsts.NOTE_API_OPERATION_UPDATE_CLIENT)
+    @PutMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = RouterConsts.API_OPERATION_UPDATE_USER, description = RouterConsts.NOTE_API_OPERATION_UPDATE_USER)
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = RouterConsts.API_RESPONSE_COD_200,
-            content =  { @Content( schema = @Schema(implementation =  ClientDto.class), mediaType = APPLICATION_JSON_VALUE)}),
+            content =  { @Content( schema = @Schema(implementation =  UserDto.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "400", description = RouterConsts.API_RESPONSE_COD_400,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "404", description = RouterConsts.API_RESPONSE_COD_404,
@@ -123,15 +119,14 @@ public class ClientsController {
             @ApiResponse(responseCode = "500", description = RouterConsts.API_RESPONSE_COD_500,
                     content =  { @Content( schema = @Schema(implementation = GenericResponseDTO.class), mediaType = APPLICATION_JSON_VALUE)})
     })
-    public ResponseEntity<ClientDto> updateClient(
-            @Parameter(description = RouterConsts.API_PARAM_REQUEST_GET_CLIENT, required = true) @PathVariable(name = PARAM_CLIENT_ID) Long clientId,
-            @Parameter(description = RouterConsts.API_PARAM_REQUEST_UPDATE_CLIENT, required = true) @Validated @RequestBody(required = true) UpdateClientDto clientDto) throws ClientException {
-        log.info(String.format(MSG_PROCESS, "init", "update",  clientId));
+    public ResponseEntity<UserDto> updateUser(
+            @Parameter(description = API_PARAM_REQUEST_GET_USER, required = true) @PathVariable(name = PARAM_USER_ID) Long userId,
+            @Parameter(description = RouterConsts.API_PARAM_REQUEST_UPDATE_USER, required = true) @Validated @RequestBody(required = true) CreateAndUpdateUserDto userDto) throws UserException {
+        log.info(String.format(MSG_PROCESS, "init", "update",  userId));
 
-        clientDto.setClientId(clientId);
-        ClientDto response = clientsFacade.updateClient(ClientDtoMapper.updateToEntity(clientDto));
+        UserDto response = usersFacade.updateUser(UserDtoMapper.updateToEntity(userDto, userId));
 
-        log.info(String.format(MSG_PROCESS, "init", "update",  clientId));
+        log.info(String.format(MSG_PROCESS, "init", "update",  userId));
         return ResponseEntity.ok(response);
     }
 }

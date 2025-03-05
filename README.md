@@ -22,15 +22,9 @@ Once the application runs you should see something like this
 2017-08-29 17:31:23.091  INFO 19387 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8090 (http)
 2017-08-29 17:31:23.097  INFO 19387 --- [           main] com.khoubyari.example.Application        : Started Application in 22.285 seconds (JVM running for 23.032)
 ```
-## How to Create data base objects
+## How to Create database objects
 
-run sql follow sql script:
-
-
-
-## About the Service
- 
-Here are some endpoints you can call:
+run sql follow sql script: 
 
 ```
 CREATE TABLE dvp.users (
@@ -44,6 +38,12 @@ CREATE TABLE dvp.users (
 ALTER TABLE dvp.users
 ADD UNIQUE (first_name, last_name); 
 ```
+ 
+## About the Service
+
+Gcloud url: http://double-v-patners-users.uc.r.appspot.com
+
+Here are some endpoints you can call: 
 
 ### Get information about system health, configurations, etc.
 
@@ -105,7 +105,7 @@ RESPONSE: HTTP 200
 
 ### To view Swagger 2 API docs
 
-Run the server and browse to /users/api/v1/swagger-ui/index.html
+Run the server and browse to http://double-v-patners-users.uc.r.appspot.com/users/api/v1/swagger-ui/index.html
 
 # About Spring Boot
 

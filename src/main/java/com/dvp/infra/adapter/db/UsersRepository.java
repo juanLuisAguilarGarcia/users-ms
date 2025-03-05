@@ -5,6 +5,7 @@ import com.dvp.infra.adapter.db.entites.UsersDto;
 import com.dvp.infra.adapter.db.jpa.UsersJpaRepository;
 import com.dvp.infra.adapter.db.mapper.MapperUsersEntity;
 import com.dvp.domain.entities.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,7 @@ public class UsersRepository implements UsersPortRepository {
     @Autowired
     private UsersJpaRepository usersJpaRepository;
 
+    @Transactional
     public User save(UsersDto userToSave){
         return MapperUsersEntity.toUser(usersJpaRepository.save(userToSave));
     }
@@ -28,6 +30,7 @@ public class UsersRepository implements UsersPortRepository {
         return MapperUsersEntity.toUserList(usersJpaRepository.findAll().iterator());
     }
 
+    @Transactional
     public User updateUser(UsersDto userToUpdate){
         return MapperUsersEntity.toUser(usersJpaRepository.save(userToUpdate));
     }

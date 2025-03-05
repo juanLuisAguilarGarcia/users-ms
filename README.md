@@ -22,10 +22,28 @@ Once the application runs you should see something like this
 2017-08-29 17:31:23.091  INFO 19387 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8090 (http)
 2017-08-29 17:31:23.097  INFO 19387 --- [           main] com.khoubyari.example.Application        : Started Application in 22.285 seconds (JVM running for 23.032)
 ```
+## How to Create data base objects
+
+run sql follow sql script:
+
+
 
 ## About the Service
  
 Here are some endpoints you can call:
+
+```
+CREATE TABLE dvp.users (
+    user_id  bigint AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    first_name varchar(100),
+    last_name varchar(100), 
+    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, 
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL 
+);  
+
+ALTER TABLE dvp.users
+ADD UNIQUE (first_name, last_name); 
+```
 
 ### Get information about system health, configurations, etc.
 
@@ -35,52 +53,59 @@ http://localhost:8081/info
 http://localhost:8081/metrics
 ```
 
-### Create a hotel resource
+### Create a user resource
 
 ```
-POST /example/v1/hotels
+POST /users/api/v1/user
 Accept: application/json
 Content-Type: application/json
 
-{
-"name" : "Beds R Us",
-"description" : "Very basic, small rooms but clean",
-"city" : "Santa Ana",
-"rating" : 2
+{ 
+    "first_name": "juan",
+    "last_name" : "aguilar" 
 }
 
-RESPONSE: HTTP 201 (Created)
-Location header: http://localhost:8090/example/v1/hotels/1
+RESPONSE: HTTP 201 (Created) 
 ```
 
-### Retrieve a paginated list of hotels
+### Get user by id
 
 ```
-http://localhost:8090/example/v1/hotels?page=0&size=10
-
-Response: HTTP 200
-Content: paginated list 
-```
-
-### Update a hotel resource
-
-```
-PUT /example/v1/hotels/1
+GET /users/api/v1/user
 Accept: application/json
 Content-Type: application/json
 
-{
-"name" : "Beds R Us",
-"description" : "Very basic, small rooms but clean",
-"city" : "Santa Ana",
-"rating" : 3
+Response: HTTP 200 
+```
+
+### Get all users  
+
+```
+GET /users/api/v1/user/1
+Accept: application/json
+Content-Type: application/json
+
+Response: HTTP 200 
+```
+
+### Update a user resource
+
+```
+PUT /users/api/v1/user/1
+Accept: application/json
+Content-Type: application/json
+
+{ 
+    "first_name": "Jose",
+    "last_name" : "Lema" 	
 }
 
-RESPONSE: HTTP 204 (No Content)
-```
+RESPONSE: HTTP 200 
+``` 
+
 ### To view Swagger 2 API docs
 
-Run the server and browse to localhost:8090/swagger-ui.html
+Run the server and browse to /users/api/v1/swagger-ui/index.html
 
 # About Spring Boot
 

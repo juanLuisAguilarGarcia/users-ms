@@ -33,9 +33,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UsersController {
 
     @Autowired
-    private UserDtoMapper userDtoMapper;
-
-    @Autowired
     private UsersFacade usersFacade;
 
     @PostMapping(value = "", produces = APPLICATION_JSON_VALUE)
